@@ -1,0 +1,18 @@
+{
+  "files": {
+    "main.css": "/Salvus/static/css/main.030e5feb.css",
+    "main.js": "/Salvus/static/js/main.5ca342e8.js",
+    "static/js/787.373ea801.chunk.js": "/Salvus/static/js/787.373ea801.chunk.js",
+    "static/media/bg-blurred.jpg": "/Salvus/static/media/bg-blurred.372ca11f5d6a20544b71.jpg",
+    "static/media/demo.jpg": "/Salvus/static/media/demo.b6833a2afa96c4c21406.jpg",
+    "static/media/title-text.png": "/Salvus/static/media/title-text.d0bc66350e9eb38aec47.png",
+    "index.html": "/Salvus/index.html",
+    "main.030e5feb.css.map": "/Salvus/static/css/main.030e5feb.css.map",
+    "main.5ca342e8.js.map": "/Salvus/static/js/main.5ca342e8.js.map",
+    "787.373ea801.chunk.js.map": "/Salvus/static/js/787.373ea801.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.030e5feb.css",
+    "static/js/main.5ca342e8.js"
+  ]
+}
