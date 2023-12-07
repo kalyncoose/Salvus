@@ -21,27 +21,29 @@ module.exports = {
       // Windows applications and is therefore the most user friendly you can get.
       name: '@electron-forge/maker-squirrel',
       config: {
-        name: 'electron-react-typescript-webpack-2022',
+        name: 'salvus',
+        authors: 'Kalyn Coose',
+        certificateFile: './cert.pfx',
+        certificatePassword: process.env.CERTIFICATE_PASSWORD
       },
     },
     {
       // The Zip target builds basic .zip files containing your packaged application.
       // There are no platform specific dependencies for using this maker and it will run on any platform.
       name: '@electron-forge/maker-zip',
-      platforms: ['darwin'],
+      platforms: ['win32','darwin','linux'],
     },
     {
       // The deb target builds .deb packages, which are the standard package format for Debian-based
       // Linux distributions such as Ubuntu.
       name: '@electron-forge/maker-deb',
-      config: {},
-    },
-    {
-      // The RPM target builds .rpm files, which is the standard package format for
-      // RedHat-based Linux distributions such as Fedora.
-      name: '@electron-forge/maker-rpm',
-      config: {},
-    },
+      config: {
+        options: {
+          maintainer: 'Kalyn Coose',
+          homepage: 'https://github.com/kalyncoose'
+        },
+      },
+    }
   ],
   // Forge Plugins
   plugins: [

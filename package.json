@@ -1,7 +1,7 @@
 {
   "name": "salvus",
   "productName": "Salvus",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Save manager tool for the game Exanima.",
   "main": ".webpack/main",
   "scripts": {
