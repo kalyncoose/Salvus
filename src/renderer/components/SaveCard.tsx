@@ -185,7 +185,7 @@ export const SaveCard = (props: SaveProps) => {
           )}
           {props.save.state === BackupState.UNRESTORED && (
             <Tooltip
-              title={`${props.save.file} is not game saves, but backed up`}
+              title={`${props.save.file} is not in game saves, but backed up`}
             >
               <ChangeCircleOutlinedIcon color='info' />
             </Tooltip>
@@ -229,13 +229,22 @@ export const SaveCard = (props: SaveProps) => {
               background: 'transparent',
             }}
           >
-            <Tooltip title='Backup Save'>
-              <IconButton
-                id={`back-up-${props.save.file}`}
-                onClick={async () => await handleBackUp(props)}
-              >
-                <SyncIcon color='secondary' />
-              </IconButton>
+            <Tooltip
+              title={
+                props.save.state === BackupState.UNRESTORED
+                  ? 'No save file to backup'
+                  : 'Backup Save'
+              }
+            >
+              <span>
+                <IconButton
+                  id={`back-up-${props.save.file}`}
+                  onClick={async () => await handleBackUp(props)}
+                  disabled={props.save.state === BackupState.UNRESTORED}
+                >
+                  <SyncIcon color='secondary' />
+                </IconButton>
+              </span>
             </Tooltip>
           </Box>
           <Divider orientation='vertical' />

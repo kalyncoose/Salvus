@@ -2,6 +2,8 @@ import { BackupState, GameSave } from '@common/game-save';
 import { app, BrowserWindow, IpcMainEvent, ipcMain } from 'electron';
 import * as fsp from 'node:fs/promises';
 import { handleGameCheck } from './gameIPC';
+import { getBackupsDir, getSavesDir } from './folderIPC';
+const path = require('node:path'); 
 
 async function handleRestore(event: IpcMainEvent, file: string) {
     const gameSaves: GameSave[] = await handleGameCheck()
@@ -20,12 +22,10 @@ async function handleRestore(event: IpcMainEvent, file: string) {
     if (found && gameSaves[index].state !== BackupState.MISSING) {
         try {
             console.log(`handleRestore: Attempting to restore ${file}`)
-            const userDataPath = app.getPath('userData');
-            const backupsDir = `${userDataPath}/Backups`
-            const existingPath = `${process.env.APPDATA}/Exanima/${file}`
-            const stats = await fsp.stat(`${backupsDir}/${file}`)
+            const existingPath = path.join(getSavesDir(), file)
+            const stats = await fsp.stat(path.join(getBackupsDir(), file))
             if (stats.isFile() && file.endsWith('.rsg')) {
-                await fsp.copyFile(`${backupsDir}/${file}`, existingPath, fsp.constants.COPYFILE_FICLONE)
+                await fsp.copyFile(path.join(getBackupsDir(), file), existingPath, fsp.constants.COPYFILE_FICLONE)
                 console.log(`handleRestore: ${file} is now restored!`)
             }
         } catch (err) {

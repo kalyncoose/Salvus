@@ -1,7 +1,9 @@
-import { BackupState, GameSave } from '@common/game-save';
 import { app, BrowserWindow, IpcMainEvent, ipcMain } from 'electron';
-import * as fsp from 'node:fs/promises';
+import { getBackupsDir, getSavesDir } from './folderIPC';
+import { BackupState, GameSave } from '@common/game-save';
 import { handleGameCheck } from './gameIPC';
+import * as fsp from 'node:fs/promises';
+const path = require('node:path'); 
 
 async function handleBackUp(event: IpcMainEvent, file: string) {
     const gameSaves: GameSave[] = await handleGameCheck()
@@ -20,12 +22,10 @@ async function handleBackUp(event: IpcMainEvent, file: string) {
     if (found && gameSaves[index].state !== BackupState.VERIFIED) {
         try {
             console.log(`handleBackUp: Attempting to back up ${file}`)
-            const userDataPath = app.getPath('userData');
-            const backupsDir = `${userDataPath}/Backups`
-            const existingPath = `${process.env.APPDATA}/Exanima/${file}`
+            const existingPath = path.join(getSavesDir(), file)
             const stats = await fsp.stat(existingPath)
             if (stats.isFile()) {
-                await fsp.copyFile(existingPath, `${backupsDir}/${file}`, fsp.constants.COPYFILE_FICLONE)
+                await fsp.copyFile(existingPath,  path.join(getBackupsDir(), file), fsp.constants.COPYFILE_FICLONE)
                 console.log(`handleBackUp: ${file} is now backed up!`)
             }
         } catch (err) {

@@ -76,7 +76,9 @@ function App() {
             size='large'
             sx={{ background: '#EDB660', color: '#292929' }}
             startIcon={<DownloadIcon />}
-            href={'https://github.com/kalyncoose/Salvus/releases'}
+            href={
+              'https://github.com/kalyncoose/Salvus/releases/download/v1.0.0/Salvus-1.0.0.Setup.exe'
+            }
             target='_blank'
           >
             Download Now

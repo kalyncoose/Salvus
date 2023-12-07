@@ -1,11 +1,11 @@
 import { BrowserWindow, IpcMainEvent, app, ipcMain, shell } from 'electron';
 
+export const exanimaSteamAppId = 362490
+
 function launchGame() {
-    const appId = 362490
-  
     // Open the folder using the default file manager
-    shell.openExternal(`steam://launch/${appId}`).then(() => {
-        console.log(`Launched steam game: ${appId}`)
+    shell.openExternal(`steam://launch/${exanimaSteamAppId}`).then(() => {
+        console.log(`Launched steam game: ${exanimaSteamAppId}`)
     })
 }
 

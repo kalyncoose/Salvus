@@ -4,7 +4,7 @@ import { registerTitlebarIpc } from '@misc/window/titlebarIPC';
 import { registerTitleIpc } from '@misc/window/titleIPC';
 import { registerFileIpc } from '@main/fileIPC';
 import { registerGameIpc } from '@main/gameIPC';
-import { registerFolderIpc } from '@main/folderIPC';
+import { getSavesDir, registerFolderIpc } from '@main/folderIPC';
 import { registerLaunchIpc } from '@main/launchIPC';
 import { registerBackUpIpc } from '@main/backUpIPC';
 import { registerRestoreIpc } from '@main/restoreIPC';
@@ -57,9 +57,8 @@ export function createAppWindow(): BrowserWindow {
 
   // Handle auto refresh
   ipcMain.handle('start-auto-refresh', async () => {
-    const savesDir = `${process.env.APPDATA}/Exanima`
     try {
-        const watcher = fsp.watch(savesDir);
+        const watcher = fsp.watch(getSavesDir());
         for await (const event of watcher) {
             if (event.filename.endsWith('.rsg')) {
                 console.log(`[watch] New event for ${event.filename}`)
