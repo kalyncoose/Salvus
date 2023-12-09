@@ -22,7 +22,8 @@ async function handleRestore(event: IpcMainEvent, file: string) {
     if (found && gameSaves[index].state !== BackupState.MISSING) {
         try {
             console.log(`handleRestore: Attempting to restore ${file}`)
-            const existingPath = path.join(getSavesDir(), file)
+            const savesDir = await getSavesDir()
+            const existingPath = path.join(savesDir, file)
             const stats = await fsp.stat(path.join(getBackupsDir(), file))
             if (stats.isFile() && file.endsWith('.rsg')) {
                 await fsp.copyFile(path.join(getBackupsDir(), file), existingPath, fsp.constants.COPYFILE_FICLONE)

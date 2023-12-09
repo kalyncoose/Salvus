@@ -109,6 +109,38 @@ export const SettingsDialog = (props: SettingsDialogProps) => {
               Backups
             </Button>
           </Tooltip>
+          <Tooltip title='Set Custom Saves Directory'>
+            <Button
+              id='open-folder'
+              variant='outlined'
+              startIcon={<FolderIcon />}
+              sx={{ marginLeft: '10px' }}
+              onClick={async () => {
+                // @ts-expect-error Not my problem
+                await window.electronAPI.selectFolder();
+                // @ts-expect-error Not my problem
+                await window.electronAPI.autoRefresh();
+              }}
+            >
+              Set Custom
+            </Button>
+          </Tooltip>
+          <Tooltip title='Delete Custom Saves Directory Setting'>
+            <Button
+              id='open-folder'
+              variant='outlined'
+              startIcon={<DeleteIcon />}
+              sx={{ marginLeft: '10px' }}
+              onClick={async () => {
+                // @ts-expect-error Not my problem
+                await window.electronAPI.deleteSettings();
+                // @ts-expect-error Not my problem
+                await window.electronAPI.autoRefresh();
+              }}
+            >
+              Delete Custom
+            </Button>
+          </Tooltip>
         </Box>
 
         {/* Manage Backups */}

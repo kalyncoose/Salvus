@@ -18,9 +18,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
     ipcRenderer.on('trigger-refresh', callback),
   autoRefresh: () => ipcRenderer.invoke('start-auto-refresh'),
 
-  // Open Folder Logic
+  // Folder Logic
   openFolder: (folder: 'saves' | 'backups') =>
-    ipcRenderer.invoke('open-saves-folder', folder),
+    ipcRenderer.invoke('open-folder', folder),
+  selectFolder: () => ipcRenderer.invoke('select-folder'),
+  deleteSettings: () => ipcRenderer.invoke('delete-settings'),
 
   // Launch Game Logic
   launchGame: () => ipcRenderer.invoke('launch-game'),

@@ -58,7 +58,8 @@ export function createAppWindow(): BrowserWindow {
   // Handle auto refresh
   ipcMain.handle('start-auto-refresh', async () => {
     try {
-        const watcher = fsp.watch(getSavesDir());
+        const savesDir = await getSavesDir()
+        const watcher = fsp.watch(savesDir);
         for await (const event of watcher) {
             if (event.filename.endsWith('.rsg')) {
                 console.log(`[watch] New event for ${event.filename}`)

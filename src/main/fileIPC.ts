@@ -2,8 +2,7 @@ import { BrowserWindow, IpcMainEvent, ipcMain, dialog } from 'electron';
 
 // Define logic for returning data to the renderer
 async function handleFileOpen () {
-    // @ts-expect-error Not my problem
-    const { canceled, filePaths } = await dialog.showOpenDialog()
+    const { canceled, filePaths } = await dialog.showOpenDialog({ title: 'Choose a custom saves directory', properties: ['openDirectory'] })
     if (!canceled) {
       return filePaths[0]
     }

@@ -1,6 +1,6 @@
 import { app, BrowserWindow, IpcMainEvent, ipcMain, webContents } from 'electron';
 import { BackupState, GameSave, getGameType, getSaveName } from '@common/game-save';
-import { getBackupsDir, getSavesDir } from './folderIPC';
+import { getBackupsDir, getSavesDir, getSettingsDir } from './folderIPC';
 import * as fsp from 'node:fs/promises';
 import TimeAgo from 'javascript-time-ago'
 const crypto = require('crypto');
@@ -8,7 +8,9 @@ const path = require('node:path');
 
 export async function checkForUnrestored(): Promise<GameSave[]> {
     const unrestoredSaves: GameSave[] = []
-    const saveFiles = await fsp.readdir(getSavesDir())
+    const savesDir = await getSavesDir()
+    // console.log(`savesDir=${savesDir}`)
+    const saveFiles = await fsp.readdir(savesDir)
     const backupFiles = await fsp.readdir(getBackupsDir())
     // console.log(`saveFiles=${saveFiles}`)
     // console.log(`backupFiles=${backupFiles}`)
@@ -40,11 +42,17 @@ export async function checkForUnrestored(): Promise<GameSave[]> {
 
 export async function checkBackUpState(file: string, stats: any, checksum: string): Promise<[BackupState, string]> {
     let backupStateResult: [BackupState, string] = [BackupState.MISSING, 'Backup missing']
-    // Create dir if not exists
+    // Create Backups dir if not exists
     await fsp.mkdir(getBackupsDir()).then(() => {
         console.log(`New Backups directory created`)
     }).catch((err) => {
         console.log(`Skipped Backups directory creation: ${err}`)
+    })
+    // Create Settings dir if not exists
+    await fsp.mkdir(getSettingsDir()).then(() => {
+        console.log(`New Settings directory created`)
+    }).catch((err) => {
+        console.log(`Skipped Settings directory creation: ${err}`)
     })
 
     // Check if backup already exists
@@ -95,15 +103,16 @@ const timeAgo = new TimeAgo('en-US')
 export async function handleGameCheck(): Promise<GameSave[]> {
     // console.log(`Starting handleGameCheck`)
     const saves: GameSave[] = []
-    const files = await fsp.readdir(getSavesDir())
+    const savesDir = await getSavesDir()
+    const files = await fsp.readdir(savesDir)
     // console.log(`readdir: ${files}`)
 
     for (const file of files) {
         // console.log(`file: ${file}`)
-        const stats = await fsp.stat(path.join(getSavesDir(), file))
+        const stats = await fsp.stat(path.join(savesDir, file))
         // console.log(`stats: ${JSON.stringify(stats)}`)
         if (stats.isFile() && file.endsWith('.rsg')) {
-            const checksum = await calculateChecksum(path.join(getSavesDir(), file))
+            const checksum = await calculateChecksum(path.join(savesDir, file))
             const backupState = await checkBackUpState(file, stats, checksum)
             const save: GameSave = {
                 name: getSaveName(file),

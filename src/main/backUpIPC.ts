@@ -22,7 +22,8 @@ async function handleBackUp(event: IpcMainEvent, file: string) {
     if (found && gameSaves[index].state !== BackupState.VERIFIED) {
         try {
             console.log(`handleBackUp: Attempting to back up ${file}`)
-            const existingPath = path.join(getSavesDir(), file)
+            const savesDir = await getSavesDir()
+            const existingPath = path.join(savesDir, file)
             const stats = await fsp.stat(existingPath)
             if (stats.isFile()) {
                 await fsp.copyFile(existingPath,  path.join(getBackupsDir(), file), fsp.constants.COPYFILE_FICLONE)
