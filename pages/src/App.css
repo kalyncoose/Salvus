@@ -1,4 +1,52 @@
-.bg {
-    background-position: top;
-    background-size: cover;
+/* Bold */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* Bold Italic */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-BoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+}
+
+/* Italic */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+/* Regular */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* SemiBold */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-SemiBold.ttf') format('truetype');
+    font-weight: 600; /* Adjust the weight accordingly */
+    font-style: normal;
+}
+
+/* SemiBold Italic */
+@font-face {
+    font-family: 'Crimson Text';
+    src: url('../public/fonts/CrimsonText-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600; /* Adjust the weight accordingly */
+    font-style: italic;
+}
+
+body {
+    font-family: 'Crimson Text', sans-serif;
+    overflow-x: hidden;
 }
