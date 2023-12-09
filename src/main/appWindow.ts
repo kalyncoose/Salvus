@@ -1,5 +1,4 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
-import path from 'path';
 import { registerTitlebarIpc } from '@misc/window/titlebarIPC';
 import { registerTitleIpc } from '@misc/window/titleIPC';
 import { registerFileIpc } from '@main/fileIPC';
@@ -10,12 +9,25 @@ import { registerBackUpIpc } from '@main/backUpIPC';
 import { registerRestoreIpc } from '@main/restoreIPC';
 import { registerDeleteIpc } from '@main/deleteIPC';
 import * as fsp from 'node:fs/promises';
+import path from 'path';
+import { platform } from 'node:os';
 
 // Electron Forge automatically creates these entry points
 declare const APP_WINDOW_WEBPACK_ENTRY: string;
 declare const APP_WINDOW_PRELOAD_WEBPACK_ENTRY: string;
 
 let appWindow: BrowserWindow;
+
+export const getIconPath = () => {
+  const currentOS = process.platform
+  switch (currentOS) {
+    case 'win32':
+      return path.resolve('assets/images/appIcon.ico')
+    default:
+      return path.resolve('assets/images/logo.png')
+  }
+}
+
 
 /**
  * Create Application Window
@@ -33,7 +45,7 @@ export function createAppWindow(): BrowserWindow {
     autoHideMenuBar: true,
     frame: false,
     titleBarStyle: 'hidden',
-    icon: path.resolve('assets/images/appIcon.ico'),
+    icon: getIconPath(),
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
