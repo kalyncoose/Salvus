@@ -43,6 +43,10 @@ module.exports = {
           homepage: 'https://github.com/kalyncoose'
         },
       },
+    },
+    {
+      // The DMG target builds .dmg packages, which are the standard package format for MacOS.
+      name: '@electron-forge/maker-dmg'
     }
   ],
   // Forge Plugins
