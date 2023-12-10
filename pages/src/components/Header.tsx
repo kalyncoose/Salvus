@@ -34,7 +34,7 @@ export const Header = () => {
             fontFamily: 'Crimson Text',
           }}
         >
-          v1.0.1
+          v1.1.0
         </Typography>
       </Box>
       <Box sx={{ width: '50%' }}>
