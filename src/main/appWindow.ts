@@ -1,16 +1,14 @@
 import { app, BrowserWindow, ipcMain } from 'electron';
+import { getSavesDir, registerFolderIpc, checkDirExists } from '@main/folderIPC';
 import { registerTitlebarIpc } from '@misc/window/titlebarIPC';
 import { registerTitleIpc } from '@misc/window/titleIPC';
-import { registerFileIpc } from '@main/fileIPC';
 import { registerGameIpc } from '@main/gameIPC';
-import { getSavesDir, registerFolderIpc } from '@main/folderIPC';
 import { registerLaunchIpc } from '@main/launchIPC';
 import { registerBackUpIpc } from '@main/backUpIPC';
 import { registerRestoreIpc } from '@main/restoreIPC';
 import { registerDeleteIpc } from '@main/deleteIPC';
 import * as fsp from 'node:fs/promises';
 import path from 'path';
-import { platform } from 'node:os';
 
 // Electron Forge automatically creates these entry points
 declare const APP_WINDOW_WEBPACK_ENTRY: string;
@@ -71,12 +69,15 @@ export function createAppWindow(): BrowserWindow {
   ipcMain.handle('start-auto-refresh', async () => {
     try {
         const savesDir = await getSavesDir()
-        const watcher = fsp.watch(savesDir);
-        for await (const event of watcher) {
+        const exists = await checkDirExists(savesDir)
+        if (exists) {
+          const watcher = fsp.watch(savesDir);
+          for await (const event of watcher) {
             if (event.filename.endsWith('.rsg')) {
                 console.log(`[watch] New event for ${event.filename}`)
                 appWindow.webContents.send('trigger-refresh')
             }
+          }
         }
     } catch (err) {
         if (err.name === 'AbortError') return;
@@ -105,9 +106,6 @@ function registerMainIPC(appWindow: BrowserWindow) {
 
   // Register a new IPC channel
   registerTitleIpc(appWindow);
-
-  // Register the File IPC channel
-  registerFileIpc(appWindow);
 
   // Register the Game IPC channel
   registerGameIpc(appWindow);

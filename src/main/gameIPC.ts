@@ -1,6 +1,6 @@
 import { app, BrowserWindow, IpcMainEvent, ipcMain, webContents } from 'electron';
 import { BackupState, GameSave, getGameType, getSaveName } from '@common/game-save';
-import { getBackupsDir, getSavesDir, getSettingsDir } from './folderIPC';
+import { checkDirExists, getBackupsDir, getSavesDir, getSettingsDir } from './folderIPC';
 import * as fsp from 'node:fs/promises';
 import TimeAgo from 'javascript-time-ago'
 const crypto = require('crypto');
@@ -10,30 +10,34 @@ export async function checkForUnrestored(): Promise<GameSave[]> {
     const unrestoredSaves: GameSave[] = []
     const savesDir = await getSavesDir()
     // console.log(`savesDir=${savesDir}`)
-    const saveFiles = await fsp.readdir(savesDir)
-    const backupFiles = await fsp.readdir(getBackupsDir())
-    // console.log(`saveFiles=${saveFiles}`)
-    // console.log(`backupFiles=${backupFiles}`)
-    for (const backupFile of backupFiles) {
-        if (!saveFiles.includes(backupFile)) {
-            // console.log(`checkForUnrestored: ${backupFile} is not in saveFiles!`)
-            const backupStats = await fsp.stat(path.join(getBackupsDir(), backupFile))
-            if (backupStats.isFile() && backupFile.endsWith('.rsg')) {
-                const backupChecksum = await calculateChecksum(path.join(getBackupsDir(), backupFile))
-                const save: GameSave = {
-                    name: getSaveName(backupFile),
-                    file: backupFile,
-                    type: getGameType(backupFile),
-                    size: `${backupStats.size} bytes`,
-                    lastModified: {
-                        timeAgo: `${timeAgo.format(new Date(backupStats.mtime))}`,
-                        date: backupStats.mtime
-                    },
-                    checksum: backupChecksum,
-                    state: BackupState.UNRESTORED,
-                    status: 'Ready to restore'
+    const savesDirExists = await checkDirExists(savesDir)
+    const backupsDirExists = await checkDirExists(getBackupsDir())
+    if (savesDirExists && backupsDirExists) {
+        const saveFiles = await fsp.readdir(savesDir)
+        const backupFiles = await fsp.readdir(getBackupsDir())
+        // console.log(`saveFiles=${saveFiles}`)
+        // console.log(`backupFiles=${backupFiles}`)
+        for (const backupFile of backupFiles) {
+            if (!saveFiles.includes(backupFile)) {
+                // console.log(`checkForUnrestored: ${backupFile} is not in saveFiles!`)
+                const backupStats = await fsp.stat(path.join(getBackupsDir(), backupFile))
+                if (backupStats.isFile() && backupFile.endsWith('.rsg')) {
+                    const backupChecksum = await calculateChecksum(path.join(getBackupsDir(), backupFile))
+                    const save: GameSave = {
+                        name: getSaveName(backupFile),
+                        file: backupFile,
+                        type: getGameType(backupFile),
+                        size: `${backupStats.size} bytes`,
+                        lastModified: {
+                            timeAgo: `${timeAgo.format(new Date(backupStats.mtime))}`,
+                            date: backupStats.mtime
+                        },
+                        checksum: backupChecksum,
+                        state: BackupState.UNRESTORED,
+                        status: 'Ready to restore'
+                    }
+                unrestoredSaves.push(save)
                 }
-            unrestoredSaves.push(save)
             }
         }
     }
@@ -104,39 +108,38 @@ export async function handleGameCheck(): Promise<GameSave[]> {
     // console.log(`Starting handleGameCheck`)
     const saves: GameSave[] = []
     const savesDir = await getSavesDir()
-    const files = await fsp.readdir(savesDir)
-    // console.log(`readdir: ${files}`)
+    const savesDirExists = await checkDirExists(savesDir)
+    if (savesDirExists) {
+        const files = await fsp.readdir(savesDir)
+        // console.log(`readdir: ${files}`)
 
-    for (const file of files) {
-        // console.log(`file: ${file}`)
-        const stats = await fsp.stat(path.join(savesDir, file))
-        // console.log(`stats: ${JSON.stringify(stats)}`)
-        if (stats.isFile() && file.endsWith('.rsg')) {
-            const checksum = await calculateChecksum(path.join(savesDir, file))
-            const backupState = await checkBackUpState(file, stats, checksum)
-            const save: GameSave = {
-                name: getSaveName(file),
-                file: file,
-                type: getGameType(file),
-                size: `${stats.size} bytes`,
-                lastModified: {
-                    timeAgo: `${timeAgo.format(new Date(stats.mtime))}`,
-                    date: stats.mtime
-                },
-                checksum: checksum,
-                state: backupState[0],
-                status: backupState[1]
+        for (const file of files) {
+            // console.log(`file: ${file}`)
+            const stats = await fsp.stat(path.join(savesDir, file))
+            // console.log(`stats: ${JSON.stringify(stats)}`)
+            if (stats.isFile() && file.endsWith('.rsg')) {
+                const checksum = await calculateChecksum(path.join(savesDir, file))
+                const backupState = await checkBackUpState(file, stats, checksum)
+                const save: GameSave = {
+                    name: getSaveName(file),
+                    file: file,
+                    type: getGameType(file),
+                    size: `${stats.size} bytes`,
+                    lastModified: {
+                        timeAgo: `${timeAgo.format(new Date(stats.mtime))}`,
+                        date: stats.mtime
+                    },
+                    checksum: checksum,
+                    state: backupState[0],
+                    status: backupState[1]
+                }
+                // console.log(`save: ${JSON.stringify(save)}`)
+                saves.push(save)
             }
-            // console.log(`save: ${JSON.stringify(save)}`)
-            saves.push(save)
+            // console.log(`stats: finished`)
+            // console.log(`file: finished`)
         }
-        // console.log(`stats: finished`)
-        // console.log(`file: finished`)
     }
-
-    // console.log(`saves: ${JSON.stringify(saves)}`)
-    // TODO: Why is it not sorting right
-
     // Check for unrestored
     const unrestoredSaves = await checkForUnrestored()
     const combinedSaves = saves.concat(unrestoredSaves)

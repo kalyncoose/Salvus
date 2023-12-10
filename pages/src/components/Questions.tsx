@@ -337,6 +337,44 @@ export const Questions = () => {
         </AccordionDetails>
       </Accordion>
 
+      {/* No saves found */}
+      <Accordion variant='outlined'>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          aria-controls='panel1a-content'
+          id='panel1a-header'
+        >
+          <Typography
+            variant='body1'
+            sx={{
+              fontWeight: '600',
+              color: 'white',
+              fontFamily: 'Crimson Text',
+              fontSize: '20px',
+              fontStyle: 'italic',
+            }}
+          >
+            Why does it say "No saves found!"?
+          </Typography>
+        </AccordionSummary>
+        <AccordionDetails>
+          <Typography
+            variant='body1'
+            sx={{
+              color: 'white',
+              fontFamily: 'Crimson Text',
+              fontSize: '18px',
+            }}
+          >
+            This means that Salvus checked and found that your default saves
+            location does not exist. To fix this, check whether your Exanima is
+            installed in the default Steam location for your operating system.
+            If it is not installed in the default location, please read the next
+            question on how to set a custom saves location.
+          </Typography>
+        </AccordionDetails>
+      </Accordion>
+
       {/* Custom Saves Directory */}
       <Accordion variant='outlined'>
         <AccordionSummary
@@ -374,7 +412,8 @@ export const Questions = () => {
             Salvus will start checking there for saves and save changes. To
             remove the custom saves folder setting, simply click the "Delete
             Custom" button and Salvus will begin checking the default saves
-            location.
+            location. Alternatively, click the "Refresh" button to manually
+            trigger refresh of your saves list.
           </Typography>
         </AccordionDetails>
       </Accordion>

@@ -1,5 +1,5 @@
-import { app, BrowserWindow, IpcMainEvent, ipcMain } from 'electron';
-import { getBackupsDir, getSavesDir } from './folderIPC';
+import { BrowserWindow, IpcMainEvent, ipcMain } from 'electron';
+import { checkDirExists, getBackupsDir, getSavesDir } from './folderIPC';
 import { BackupState, GameSave } from '@common/game-save';
 import { handleGameCheck } from './gameIPC';
 import * as fsp from 'node:fs/promises';
@@ -23,11 +23,15 @@ async function handleBackUp(event: IpcMainEvent, file: string) {
         try {
             console.log(`handleBackUp: Attempting to back up ${file}`)
             const savesDir = await getSavesDir()
-            const existingPath = path.join(savesDir, file)
-            const stats = await fsp.stat(existingPath)
-            if (stats.isFile()) {
-                await fsp.copyFile(existingPath,  path.join(getBackupsDir(), file), fsp.constants.COPYFILE_FICLONE)
-                console.log(`handleBackUp: ${file} is now backed up!`)
+            const savesDirExists = await checkDirExists(savesDir)
+            const backupsDirExists = await checkDirExists(getBackupsDir())
+            if (savesDirExists && backupsDirExists) {
+                const existingPath = path.join(savesDir, file)
+                const stats = await fsp.stat(existingPath)
+                if (stats.isFile()) {
+                    await fsp.copyFile(existingPath,  path.join(getBackupsDir(), file), fsp.constants.COPYFILE_FICLONE)
+                    console.log(`handleBackUp: ${file} is now backed up!`)
+                }
             }
         } catch (err) {
             console.log(`Failed during backup: ${err}`)

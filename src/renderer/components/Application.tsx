@@ -10,7 +10,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import SyncIcon from '@mui/icons-material/Sync';
 import RestoreIcon from '@mui/icons-material/Restore';
 import SportsEsportsOutlinedIcon from '@mui/icons-material/SportsEsportsOutlined';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import Tooltip from '@mui/material/Tooltip';
+import Typography from '@mui/material/Typography';
 import { RestoreDialog } from './RestoreDialog';
 import { DeleteDialog } from './DeleteDialog';
 import { SettingsDialog } from './SettingsDialog';
@@ -71,7 +73,7 @@ const Application: React.FC = () => {
 
   // Initial startup logic
   useEffect(() => {
-    document.getElementById('game').click();
+    // document.getElementById('game').click();
     // @ts-expect-error Not my problem
     window.electronAPI.autoRefresh();
   }, []);
@@ -200,6 +202,33 @@ const Application: React.FC = () => {
           />
         );
       })}
+
+      {/* Empty State */}
+      {saves === undefined ||
+        saves === null ||
+        (saves?.length === 0 && (
+          <Box
+            sx={{
+              paddingTop: '50px',
+              height: '50vh',
+              width: '100%',
+              display: 'block',
+              flexDirection: 'column',
+              textAlign: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <ReportProblemOutlinedIcon fontSize='large' color='secondary' />
+            <Typography variant='h6' color='secondary'>
+              No saves found!
+            </Typography>
+            <Typography variant='body2' color='secondary'>
+              Please check that your default save location exists
+              <br />
+              or set a custom saves location in the Settings.
+            </Typography>
+          </Box>
+        ))}
     </Container>
   );
 };
