@@ -61,7 +61,7 @@ export const Video = () => {
             id='youtube-video'
             width='560'
             height='315'
-            src='https://www.youtube.com/embed/sjnCGAzIiwg?si=UhM0q10zQjSFl4z_'
+            src='https://www.youtube.com/embed/8GRW2AyMQoQ?si=CrbfvoTM6FJSBX-d'
             title='YouTube video player'
             frameBorder='0'
             allow='accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
