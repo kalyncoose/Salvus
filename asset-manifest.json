@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Salvus/static/css/main.36dc1b1e.css",
-    "main.js": "/Salvus/static/js/main.7df94039.js",
+    "main.js": "/Salvus/static/js/main.7d4cd49f.js",
     "static/js/787.373ea801.chunk.js": "/Salvus/static/js/787.373ea801.chunk.js",
     "static/media/demo.jpg": "/Salvus/static/media/demo.6b028a71156984c8d079.jpg",
     "static/media/CrimsonText-BoldItalic.ttf": "/Salvus/static/media/CrimsonText-BoldItalic.17d0e509df0846a8dd9e.ttf",
@@ -13,11 +13,11 @@
     "static/media/logo.png": "/Salvus/static/media/logo.d0bc66350e9eb38aec47.png",
     "index.html": "/Salvus/index.html",
     "main.36dc1b1e.css.map": "/Salvus/static/css/main.36dc1b1e.css.map",
-    "main.7df94039.js.map": "/Salvus/static/js/main.7df94039.js.map",
+    "main.7d4cd49f.js.map": "/Salvus/static/js/main.7d4cd49f.js.map",
     "787.373ea801.chunk.js.map": "/Salvus/static/js/787.373ea801.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.36dc1b1e.css",
-    "static/js/main.7df94039.js"
+    "static/js/main.7d4cd49f.js"
   ]
 }
