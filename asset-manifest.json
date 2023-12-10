@@ -1,18 +1,23 @@
 {
   "files": {
-    "main.css": "/Salvus/static/css/main.030e5feb.css",
-    "main.js": "/Salvus/static/js/main.5ca342e8.js",
+    "main.css": "/Salvus/static/css/main.36dc1b1e.css",
+    "main.js": "/Salvus/static/js/main.7df94039.js",
     "static/js/787.373ea801.chunk.js": "/Salvus/static/js/787.373ea801.chunk.js",
-    "static/media/bg-blurred.jpg": "/Salvus/static/media/bg-blurred.372ca11f5d6a20544b71.jpg",
-    "static/media/demo.jpg": "/Salvus/static/media/demo.b6833a2afa96c4c21406.jpg",
-    "static/media/title-text.png": "/Salvus/static/media/title-text.d0bc66350e9eb38aec47.png",
+    "static/media/demo.jpg": "/Salvus/static/media/demo.6b028a71156984c8d079.jpg",
+    "static/media/CrimsonText-BoldItalic.ttf": "/Salvus/static/media/CrimsonText-BoldItalic.17d0e509df0846a8dd9e.ttf",
+    "static/media/CrimsonText-Bold.ttf": "/Salvus/static/media/CrimsonText-Bold.22c807fdbe784a0ec91a.ttf",
+    "static/media/CrimsonText-SemiBoldItalic.ttf": "/Salvus/static/media/CrimsonText-SemiBoldItalic.f6d119a9c637c1dce674.ttf",
+    "static/media/CrimsonText-SemiBold.ttf": "/Salvus/static/media/CrimsonText-SemiBold.3518edb0e88939f1d275.ttf",
+    "static/media/CrimsonText-Italic.ttf": "/Salvus/static/media/CrimsonText-Italic.428025ba40b1c354f687.ttf",
+    "static/media/CrimsonText-Regular.ttf": "/Salvus/static/media/CrimsonText-Regular.b7af1dccae742a310539.ttf",
+    "static/media/logo.png": "/Salvus/static/media/logo.d0bc66350e9eb38aec47.png",
     "index.html": "/Salvus/index.html",
-    "main.030e5feb.css.map": "/Salvus/static/css/main.030e5feb.css.map",
-    "main.5ca342e8.js.map": "/Salvus/static/js/main.5ca342e8.js.map",
+    "main.36dc1b1e.css.map": "/Salvus/static/css/main.36dc1b1e.css.map",
+    "main.7df94039.js.map": "/Salvus/static/js/main.7df94039.js.map",
     "787.373ea801.chunk.js.map": "/Salvus/static/js/787.373ea801.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.030e5feb.css",
-    "static/js/main.5ca342e8.js"
+    "static/css/main.36dc1b1e.css",
+    "static/js/main.7df94039.js"
   ]
 }
