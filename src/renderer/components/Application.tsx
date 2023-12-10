@@ -73,7 +73,7 @@ const Application: React.FC = () => {
 
   // Initial startup logic
   useEffect(() => {
-    // document.getElementById('game').click();
+    document.getElementById('game').click();
     // @ts-expect-error Not my problem
     window.electronAPI.autoRefresh();
   }, []);
